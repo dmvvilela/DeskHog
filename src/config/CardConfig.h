@@ -10,7 +10,6 @@
 enum class CardType {
     INSIGHT,      ///< PostHog insight visualization card
     FRIEND,       ///< Walking animation/encouragement card
-    HELLO_WORLD,  ///< Simple hello world card
     FLAPPY_HOG,   ///< Flappy Hog game card
     QUESTION,     ///< Question trivia card
     PADDLE,       ///< Paddle game card
@@ -82,7 +81,6 @@ inline String cardTypeToString(CardType type) {
     switch (type) {
         case CardType::INSIGHT: return "INSIGHT";
         case CardType::FRIEND: return "FRIEND";
-        case CardType::HELLO_WORLD: return "HELLO_WORLD";
         case CardType::FLAPPY_HOG: return "FLAPPY_HOG";
         case CardType::QUESTION: return "QUESTION";
         case CardType::PADDLE: return "PADDLE";
@@ -99,7 +97,6 @@ inline String cardTypeToString(CardType type) {
 inline CardType stringToCardType(const String& str) {
     if (str == "INSIGHT") return CardType::INSIGHT;
     if (str == "FRIEND") return CardType::FRIEND;
-    if (str == "HELLO_WORLD") return CardType::HELLO_WORLD;
     if (str == "FLAPPY_HOG") return CardType::FLAPPY_HOG;
     if (str == "QUESTION") return CardType::QUESTION;
     if (str == "PADDLE") return CardType::PADDLE;

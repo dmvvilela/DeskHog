@@ -149,25 +149,6 @@ void CardController::createAnimationCard() {
     displayInterface->giveMutex();
 }
 
-void CardController::createHelloWorldCard() {
-    if (!displayInterface || !displayInterface->takeMutex(portMAX_DELAY)) {
-        return;
-    }
-    
-    // Create new hello world card
-    HelloWorldCard* helloCard = new HelloWorldCard(screen);
-    
-    if (helloCard && helloCard->getCard()) {
-        // Add to navigation stack
-        cardStack->addCard(helloCard->getCard());
-        
-        // Register as an input handler
-        cardStack->registerInputHandler(helloCard->getCard(), helloCard);
-    }
-    
-    displayInterface->giveMutex();
-}
-
 
 
 // Handle WiFi events
