@@ -316,14 +316,14 @@ void PomodoroCard::effects_timer_cb(lv_timer_t* timer) {
 void PomodoroCard::executePostTimerEffects() {
     Serial.println("Executing post-timer effects. Flashing rainbow (screen).");
     flashRainbow(); // Screen effect
-    
+
     Serial.println("Blinking NeoPixel.");
     if (neoPixelController) {
         neoPixelController->blinkLight(2, 250); // Blink 2 times, 250ms on, 250ms off for each color in sequence
     }
 
-    // Timer will be started for the new mode by the effects_timer_cb after this function returns
-    // and startTimer will set the correct WORK/BREAK LED state.
+    // Auto-start the timer for the new mode (work or break)
+    startTimer();
 }
 
 void PomodoroCard::updateTallyDisplay() {

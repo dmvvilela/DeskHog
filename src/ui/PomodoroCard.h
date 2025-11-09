@@ -40,8 +40,8 @@ private:
     bool _is_work_mode;  // true for work (25min), false for break (5min)
     int _remaining_seconds;
     int _completed_work_sessions; // Counter for completed work sessions
-    static constexpr int WORK_TIME = 25;    // 25 seconds for testing // TODO: Change to 25 * 60
-    static constexpr int BREAK_TIME = 5;    // 5 seconds for testing // TODO: Change to 5 * 60
+    static constexpr int WORK_TIME = 25 * 60;    // 25 minutes in seconds
+    static constexpr int BREAK_TIME = 5 * 60;    // 5 minutes in seconds
 
     // Static color definitions for rainbow effect
     static const uint32_t RAINBOW_COLORS[];
