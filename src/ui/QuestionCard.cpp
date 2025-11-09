@@ -164,8 +164,8 @@ void QuestionCard::startScrolling()
     lv_coord_t cont_h  = lv_obj_get_height(_cont);
 
     /* include vertical padding */
-    lv_coord_t pad_top    = lv_obj_get_style_pad_top   (_cont, 0);
-    lv_coord_t pad_bottom = lv_obj_get_style_pad_bottom(_cont, 0);
+    lv_coord_t pad_top    = lv_obj_get_style_pad_top   (_cont, LV_PART_MAIN);
+    lv_coord_t pad_bottom = lv_obj_get_style_pad_bottom(_cont, LV_PART_MAIN);
 
     lv_coord_t distance = label_h + pad_top + pad_bottom - cont_h;
     if (distance <= 0) return;           // no scrolling needed
