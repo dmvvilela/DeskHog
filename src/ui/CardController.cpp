@@ -1,5 +1,6 @@
 #include "ui/CardController.h"
 #include "ui/PaddleCard.h"
+#include "ui/PomodoroCard.h"
 #include <algorithm>
 
 QueueHandle_t CardController::uiQueue = nullptr;
@@ -86,10 +87,10 @@ void CardController::initialize(DisplayInterface* display) {
     
     // Load current card configuration and create cards
     currentCardConfigs = configManager.getCardConfigs();
-    
+
     // Don't create any default cards when no configuration exists
     // Only the provisioning card will be shown
-    
+
     // If we have card configurations now, reconcile them
     if (!currentCardConfigs.empty()) {
         reconcileCards(currentCardConfigs);
@@ -277,33 +278,6 @@ void CardController::initializeCardTypes() {
         return nullptr;
     };
     registerCardType(friendDef);
-    
-    // Register HELLO_WORLD card type
-    CardDefinition helloDef;
-    helloDef.type = CardType::HELLO_WORLD;
-    helloDef.name = "Hello, world!";
-    helloDef.allowMultiple = true;
-    helloDef.needsConfigInput = false;
-    helloDef.configInputLabel = "";
-    helloDef.uiDescription = "A simple greeting card";
-    helloDef.factory = [this](const String& configValue) -> lv_obj_t* {
-        HelloWorldCard* newCard = new HelloWorldCard(screen);
-        
-        if (newCard && newCard->getCard()) {
-            // Add to unified tracking system
-            CardInstance instance{newCard, newCard->getCard()};
-            dynamicCards[CardType::HELLO_WORLD].push_back(instance);
-            
-            // Register as input handler
-            cardStack->registerInputHandler(newCard->getCard(), newCard);
-            return newCard->getCard();
-        }
-        
-        delete newCard;
-        return nullptr;
-    };
-    registerCardType(helloDef);
-    
     // Register FLAPPY_HOG card type
     CardDefinition flappyDef;
     flappyDef.type = CardType::FLAPPY_HOG;
@@ -381,6 +355,32 @@ void CardController::initializeCardTypes() {
         return nullptr;
     };
     registerCardType(paddleDef);
+
+    // Register POMODORO card type
+    CardDefinition pomodoroDef;
+    pomodoroDef.type = CardType::POMODORO;
+    pomodoroDef.name = "Pomodoro Timer";
+    pomodoroDef.allowMultiple = false;  // Only one timer at a time
+    pomodoroDef.needsConfigInput = false;
+    pomodoroDef.configInputLabel = "";
+    pomodoroDef.uiDescription = "Focus timer for productivity";
+    pomodoroDef.factory = [this](const String& configValue) -> lv_obj_t* {
+        PomodoroCard* newCard = new PomodoroCard(screen);
+
+        if (newCard && newCard->getCard()) {
+            // Add to unified tracking system
+            CardInstance instance{newCard, newCard->getCard()};
+            dynamicCards[CardType::POMODORO].push_back(instance);
+
+            // Register as input handler
+            cardStack->registerInputHandler(newCard->getCard(), newCard);
+            return newCard->getCard();
+        }
+
+        delete newCard;
+        return nullptr;
+    };
+    registerCardType(pomodoroDef);
 }
 
 void CardController::handleCardConfigChanged() {
