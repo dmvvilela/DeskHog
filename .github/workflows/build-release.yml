@@ -1,5 +1,8 @@
 name: Build Firmware Release
 
+permissions:
+  contents: read
+
 on:
   release:
     types: [created]
@@ -85,6 +88,8 @@ jobs:
     
     - name: Upload Release Assets
       if: github.event_name == 'release'
+      permissions:
+        contents: write
       uses: softprops/action-gh-release@v1
       with:
         files: |
