@@ -13,7 +13,8 @@ enum class CardType {
     FLAPPY_HOG,   ///< Flappy Hog game card
     QUESTION,     ///< Question trivia card
     PADDLE,       ///< Paddle game card
-    POMODORO      ///< Pomodoro timer card
+    POMODORO,     ///< Pomodoro timer card
+    WORK_TIMER    ///< Open-ended work-session stopwatch
     // New card types can be added here
 };
 
@@ -85,6 +86,7 @@ inline String cardTypeToString(CardType type) {
         case CardType::QUESTION: return "QUESTION";
         case CardType::PADDLE: return "PADDLE";
         case CardType::POMODORO: return "POMODORO";
+        case CardType::WORK_TIMER: return "WORK_TIMER";
         default: return "UNKNOWN";
     }
 }
@@ -101,5 +103,6 @@ inline CardType stringToCardType(const String& str) {
     if (str == "QUESTION") return CardType::QUESTION;
     if (str == "PADDLE") return CardType::PADDLE;
     if (str == "POMODORO") return CardType::POMODORO;
+    if (str == "WORK_TIMER") return CardType::WORK_TIMER;
     return CardType::INSIGHT; // Default fallback
 }

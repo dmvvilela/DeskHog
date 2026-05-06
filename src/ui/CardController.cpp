@@ -1,6 +1,7 @@
 #include "ui/CardController.h"
 #include "ui/PaddleCard.h"
 #include "ui/PomodoroCard.h"
+#include "ui/WorkTimerCard.h"
 #include <algorithm>
 
 QueueHandle_t CardController::uiQueue = nullptr;
@@ -362,6 +363,29 @@ void CardController::initializeCardTypes() {
         return nullptr;
     };
     registerCardType(pomodoroDef);
+
+    // Register WORK_TIMER card type
+    CardDefinition workTimerDef;
+    workTimerDef.type = CardType::WORK_TIMER;
+    workTimerDef.name = "Work Timer";
+    workTimerDef.allowMultiple = false;
+    workTimerDef.needsConfigInput = false;
+    workTimerDef.configInputLabel = "";
+    workTimerDef.uiDescription = "Open-ended stopwatch for deep-work sessions. Tracks today's sessions.";
+    workTimerDef.factory = [this](const String& configValue) -> lv_obj_t* {
+        WorkTimerCard* newCard = new WorkTimerCard(screen);
+
+        if (newCard && newCard->getCard()) {
+            CardInstance instance{newCard, newCard->getCard()};
+            dynamicCards[CardType::WORK_TIMER].push_back(instance);
+            cardStack->registerInputHandler(newCard->getCard(), newCard);
+            return newCard->getCard();
+        }
+
+        delete newCard;
+        return nullptr;
+    };
+    registerCardType(workTimerDef);
 }
 
 void CardController::handleCardConfigChanged() {
