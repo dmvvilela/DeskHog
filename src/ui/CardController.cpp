@@ -498,8 +498,10 @@ void CardController::reconcileCards(const std::vector<CardConfig>& newConfigs) {
         
         // Navigate to appropriate card
         if (hasNewCard && newCardPosition > 0) {
-            // Navigate to the newly added card
-            cardStack->goToCard(newCardPosition);
+            // On the first reconcile after boot, oldCardCount is 0 and every card
+            // looks "new" — land on the first dynamic card instead of the last.
+            uint8_t targetIndex = (oldCardCount == 0) ? 1 : newCardPosition;
+            cardStack->goToCard(targetIndex);
         } else if (savedCardIndex > 0 && cardsCreated > 0) {
             // Restore previous position if no new card was added
             // Adjust for the provisioning card (always at index 0)
@@ -579,11 +581,7 @@ void CardController::handleCardTitleUpdated(const Event& event) {
             // Update the name with the new title
             if (cardConfig.name != event.title) {
                 cardConfig.name = event.title;
-                
-                // Save the updated configuration to persistent storage
-                configManager.saveCardConfigs(currentCardConfigs);
-                
-                Serial.printf("Updated card title for insight %s to: %s\n", 
+                Serial.printf("Updated card title for insight %s to: %s\n",
                              event.insightId.c_str(), event.title.c_str());
             }
             break;
